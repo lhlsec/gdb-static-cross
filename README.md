@@ -134,6 +134,24 @@ You should now have a statically compiled GDB 7.12 gdbserver for your native OS.
 
 *NOTE: You really should use uClibc or musl for your libc, not glibc, because of libnss which requires dynamic library loading via libdl*
 
+## GDB packet errors
+
+If you run into something like this:
+
+```
+(gdb) target remote 10.1.2.132:12346
+Remote debugging using 10.1.2.132:12346
+Malformed packet(b) (missing colon): ore:0;
+Packet: 'T001d:7fa08ea8;25:77668244;thread:2db0;core:0;'
+
+```
+
+Then you should invoke gdbserver with the following (or similar)
+
+```
+$ gdbserver :<port> --disable-packet=threads <pid>
+```
+
 ## License
 
 * The shell scripts and source files here are is released under the terms of GPLv2 by copyright@mzpqnxow.com

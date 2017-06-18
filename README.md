@@ -36,7 +36,7 @@ To use `activate-openwrt-toolchain.env` with a pre-built **OpenWrt Toolchain** y
 
 To use this script, assume you have a directory called /toolchains/ and that this is where you will keep the toolchains, one subdirectory per toolchain. To get a new toolchain up in such a way to use active-openwrt-toolchain, grab a file like [OpenWrt-Toolchain-brcm63xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2](https://downloads.openwrt.org/snapshots/trunk/brcm63xx/generic/OpenWrt-Toolchain-brcm63xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2)
 
-### Build using OpenWRT and these scripts, step by step for the impatient cut and paste enthusiasts
+### For dummies: Build using OpenWRT and these scripts, step by step for the impatient cut and paste enthusiasts
 ```
 $ cd ~/ && git clone https://github.com/mzpqnxow/gdb-7.12-crossbuilder
 $ cd gdb-7.12-crossbuilder
@@ -49,7 +49,7 @@ $ cp ~/gdb-7.12-crossbuilder/activate-openwrt-toolchain.env /openwrt-toolchains/
 $ source /openwrt-toolchains/$TOOLCHAIN/activate
 ```
 
-## MUSL via [musl-cross-make](https://github.com/richfelker/musl-cross-make/): Use `source activate-musl-toolchain.env` with an installed toolchain built by musl-cross-make
+## For dummies: MUSL via [musl-cross-make](https://github.com/richfelker/musl-cross-make/): Use `source activate-musl-toolchain.env` with an installed toolchain built by musl-cross-make
 
 Using [musl-cross-make](https://github.com/richfelker/musl-cross-make/) is a great experience and kudos to [@richfelker](https://github.com/richfelker) for making it available. I recommend you try it, even just for testing a sample i486 toolchain, useful for building statically linked libraries for common desktop/server platforms. If you do try it, all you need to do is edit the musl-cross-make config.mak file to specify the architecture and any other flags as well as installation path and then use make -j and make install. That's it. You're done. The activate-musl-toolchain file provided here is for you to place in the root of the installed toolchain to use as a convenience to "activate" the toolchain in your environment for use with *weird* build systems, or for software with no build system at all. You use it by simply `source`ing it in your active shell. Sorry, there is no deactivate. Just start a new shell to restore your environment. Here's an example
 

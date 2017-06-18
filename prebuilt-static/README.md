@@ -1,6 +1,6 @@
 ## Pre-built gdbserver executables for many platforms
 
-*NOTE: these were taken for my larger statically compiled executable repository @ https://github.com/mzpqnxow/arm-mips-tools which includes many more static bins (gawk, lsof, tcpdump, etc)*
+*NOTE: these were taken for my larger statically compiled executable repository @ https://github.com/mzpqnxow/embedded-toolkit which includes many more static bins (gawk, lsof, tcpdump, etc)*
 
 This is a collection of statically compiled gdbserver executables for Linux for many embedded platforms. They were tested thoroughly (in real life use)  and work very well- most if not all should have the most compatible options, i.e. software floating point emulation, etc. Some are actually customized for a specific CPU (i.e. the lexra build) so you might need to try a few on an exotic target because I didn't document things well enough while building. If you don't use the right one or you will get funny errors or segmentation faults. An error that contain s a paren almost always means that the endianness is incorect. Note some of these were built with musl while some were built with uClibc. Note that not all are 7.12, they will be updated as locate the toolchains used to build them (or rebuild said toolchains)
 

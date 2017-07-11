@@ -28,7 +28,7 @@ I tried to compile builds as portable as possible (i.e. emulating FP in software
 
 ### If you want to build things other than gdbserver
 
-Some open source projects have no real build system, and many have very strange custom build systems that don't use the "standard" `./configure && make && make install` style build system . You can check out [embedded-toolkt](https://github.com/mzpqnxow/embedded-toolkit) and look in the [src](https://github.com/mzpqnxow/embedded-toolkit/tree/master/src) directory for examples of using these scripts before building various tools such as *gawk*, *gdbserver*, *tcpdump*, *libpcap*, *lsof*, *etc* which have some unique build systems, especially lsof... WTF lsof? Also, if you have a toolchain without wchar, use mawk instead of gawk. The mawk source and patches to build mawk are also included in [src](https://github.com/mzpqnxow/embedded-toolkit/tree/master/src/mawk). You can also use this for simple `gcc bah.c -o bah` operations or `gcc bah.s -o bah`
+Some open source projects have no real build system, and many have very strange custom build systems that don't use the "standard" `./configure && make && make install` style build system . You can check out [embedded-toolkt](https://github.com/mzpqnxow/embedded-toolkit) and look in the [src](https://github.com/mzpqnxow/embedded-toolkit/tree/master/src) directory for examples of using these scripts before building various tools such as *gawk*, *gdbserver*, *tcpdump*, *libpcap*, *lsof*, *etc* which have some unique build systems, especially lsof... the lsof configure/build system is especially odd. Also, if you have a toolchain without wchar, use mawk instead of gawk. The mawk source and patches to build mawk are also included in [src](https://github.com/mzpqnxow/embedded-toolkit/tree/master/src/mawk). You can also use this for simple `gcc bah.c -o bah` operations or `gcc bah.s -o bah`
 
 ## OpenWrt: Use `source activate-openwrt-toolchain.env` with a pre-built OpenWrt Toolchain
 
@@ -125,7 +125,7 @@ $ wget https://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.xz
 $ tar -xvf gdb-7.12.tar.xz
 $ cd gdb-7.12/gdb/gdbserver
 $ sed -i -e 's/srv_linux_thread_db=yes//' configure.srv
-... optionally apply architecture specific patches, not required for x86 or x86_64 though
+... optionally apply architecture specific patches found in patches/ as required by your toolchain or architecture ...
 $ ./configure --prefix=/opt/gdbserver-7.12-static CXXFLAGS='-fPIC -static'
 $ make -j gdbserver GDBSERVER_LIBS="$LIBGCC $LIBCXX"
 ```

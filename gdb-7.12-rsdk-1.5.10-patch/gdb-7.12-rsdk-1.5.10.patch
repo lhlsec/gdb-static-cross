@@ -1,0 +1,22 @@
+diff -Naur gdb-7.12/gdb/gdbserver/linux-mips-low.c gdb-7.12-rsdk-1.5.10/gdb/gdbserver/linux-mips-low.c
+--- gdb-7.12/gdb/gdbserver/linux-mips-low.c	2016-10-07 13:04:17.000000000 -0400
++++ gdb-7.12-rsdk-1.5.10/gdb/gdbserver/linux-mips-low.c	2017-07-11 01:26:50.958713452 -0400
+@@ -25,6 +25,8 @@
+ #include "nat/mips-linux-watch.h"
+ #include "gdb_proc_service.h"
+ 
++#include "mips-linux-tdep.h"
++
+ /* Defined in auto-generated file mips-linux.c.  */
+ void init_registers_mips_linux (void);
+ extern const struct target_desc *tdesc_mips_linux;
+@@ -57,7 +59,9 @@
+ #define mips_num_regs 73
+ #define mips_dsp_num_regs 80
+ 
++#define __ASSEMBLY__
+ #include <asm/ptrace.h>
++#undef __ASSEMBLY__
+ 
+ #ifndef DSP_BASE
+ #define DSP_BASE 71

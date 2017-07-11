@@ -39,14 +39,16 @@ To use this script, assume you have a directory called /toolchains/ and that thi
 
 ### For dummies: Build using OpenWRT and these scripts, step by step for the impatient cut and paste enthusiasts
 ```
-$ cd ~/ && git clone https://github.com/mzpqnxow/gdb-7.12-crossbuilder
-$ cd gdb-7.12-crossbuilder
+$ sudo mkdir -p /openwrt-toolchains
+$ sudo chown $USER /openwrt-toolchains
+$ cd ~/ && git clone https://github.com/mzpqnxow/gdb-static-cross.git
+$ cd gdb-static-cross.git
 $ wget https://.../OpenWrt-Toolchain-brcm63xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
 $ tar -xvjf OpenWrt-Toolchain-brcm63xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
 $ cd OpenWrt-Toolchain-brcm63xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64/
 $ TOOLCHAIN=$(echo toolchain-*)
 $ mv "$TOOLCHAIN" /openwrt-toolchains/
-$ cp ~/gdb-7.12-crossbuilder/activate-openwrt-toolchain.env /openwrt-toolchains/$TOOLCHAIN/activate
+$ cp ~/gdb-static-cross.git/activate-openwrt-toolchain.env /openwrt-toolchains/$TOOLCHAIN/activate
 $ source /openwrt-toolchains/$TOOLCHAIN/activate
 ```
 
@@ -63,8 +65,8 @@ $ vi config.mak
 ... assume you're installing to $TOOLCHAIN_DEST ...
 $ make -j && make install
 $ cd ~/
-$ git clone https://github.com/mzpqnxow/gdb-7.12-crossbuilder
-$ cd gdb-7.12-crossbuilder
+$ git clone https://github.com/mzpqnxow/gdb-static-cross.git
+$ cd gdb-static-cross.git
 $ cp activate-musl-toolchain.env $TOOLCHAIN_DEST/activate
 $ source $TOOLCHAIN_DEST/activate
 $ wget https://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.xz

@@ -23,7 +23,7 @@ This repository is for when you don't want something as heavy as crosstool-ng or
 
 ### ATTENTION!
 
-***If you just want to download a statically linked gdbserver for a specific MIPS(EL) or ARM platform, check the [prebuilt](https://github.com/mzpqnxow/gdb-static-cross/tree/master/prebuilt/) directory***
+***If you just want to download a statically linked gdbserver for a specific MIPS(EL) or ARM platform, check the [prebuilt-static](https://github.com/mzpqnxow/gdb-static-cross/tree/master/prebuilt-static/) directory***
 
 I tried to compile builds as portable as possible (i.e. emulating FP in software) and got a lot out of use of what was produced in real life situations, so you should find them somewhat reliable on Linux based embedded devices
 

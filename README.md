@@ -52,6 +52,40 @@ $ cp ~/gdb-static-cross.git/activate-openwrt-toolchain.env /openwrt-toolchains/$
 $ source /openwrt-toolchains/$TOOLCHAIN/activate
 ```
 
+## Notes for GDB >= 8
+
+There are different patches/procedures required with GDB >= 8. For instance, there is no flag to disable the use of c++ at build time.
+
+There still does not appear to be a clean/clear way to build statically. So build as normal. Once things are built, do the following:
+
+
+```
+$ rm -f gdbserver gdbreplay
+$ V=1 make
+```
+
+You should see the following at the end:
+
+```
+mips-sf-linux-musl-g++  -g -O2    -I. -I. -I./../common -I./../regformats -I./.. -I./../../include -I./../gnulib/import -Ibuild-gnulib-gdbserver/import  -Wall -Wpointer-arith -Wno-unused -Wunused-value -Wunused-function -Wno-switch -Wno-char-subscripts -Wempty-body -Wunused-but-set-parameter -Wunused-but-set-variable -Wno-sign-compare -Wno-narrowing -Wno-error=maybe-uninitialized -Wsuggest-override -Wduplicated-cond  -DGDBSERVER   \
+	-o gdbserver ax.o common/agent.o common/btrace-common.o common/buffer.o common/cleanups.o common/common-debug.o common/common-exceptions.o common/job-control.o common/common-regcache.o common/common-utils.o common/errors.o common/environ.o common/fileio.o common/filestuff.o common/format.o common/gdb_tilde_expand.o common/gdb_vecs.o common/new-op.o common/pathstuff.o common/print-utils.o common/ptid.o common/rsp-low.o common/signals.o common/signals-state-save-restore.o common/tdesc.o common/vec.o common/xml-utils.o debug.o dll.o event-loop.o hostio.o inferiors.o mem-break.o notif.o regcache.o remote-utils.o server.o symbol.o target.o tdesc.o tracepoint.o utils.o version.o waitstatus.o mips-linux.o mips-dsp-linux.o mips64-linux.o mips64-dsp-linux.o linux-low.o linux-osdata.o linux-procfs.o linux-ptrace.o linux-waitpid.o linux-personality.o linux-namespaces.o fork-child.o fork-inferior.o linux-mips-low.o mips-linux-watch.o hostio-errno.o thread-db.o proc-service.o common/posix-strerror.o   xml-builtin.o build-gnulib-gdbserver/import/libgnu.a build-libiberty-gdbserver/libiberty.a \
+	-ldl 
+```
+
+What you need to do here is pretty simple. Remove the `-Wl,--dynamic-list=./proc-service.list` from the final gdbserver build command and add the `-static` option. Replace `-ldl` with `$DL_STATIC` (assuming you used one of the activate scripts) *or*, replace with the path to your toolchains `libdl.a` file and then run the command over again. This ultimately looks like this:
+
+```
+mips-sf-linux-musl-g++  -g -O2    -I. -I. -I./../common -I./../regformats -I./.. -I./../../include -I./../gnulib/import -Ibuild-gnulib-gdbserver/import  -Wall -Wpointer-arith -Wno-unused -Wunused-value -Wunused-function -Wno-switch -Wno-char-subscripts -Wempty-body -Wunused-but-set-parameter -Wunused-but-set-variable -Wno-sign-compare -Wno-narrowing -Wno-error=maybe-uninitialized -Wsuggest-override -Wduplicated-cond  -DGDBSERVER -o gdbserver ax.o common/agent.o common/btrace-common.o common/buffer.o common/cleanups.o common/common-debug.o common/common-exceptions.o common/job-control.o common/common-regcache.o common/common-utils.o common/errors.o common/environ.o common/fileio.o common/filestuff.o common/format.o common/gdb_tilde_expand.o common/gdb_vecs.o common/new-op.o common/pathstuff.o common/print-utils.o common/ptid.o common/rsp-low.o common/signals.o common/signals-state-save-restore.o common/tdesc.o common/vec.o common/xml-utils.o debug.o dll.o event-loop.o hostio.o inferiors.o mem-break.o notif.o regcache.o remote-utils.o server.o symbol.o target.o tdesc.o tracepoint.o utils.o version.o waitstatus.o mips-linux.o mips-dsp-linux.o mips64-linux.o mips64-dsp-linux.o linux-low.o linux-osdata.o linux-procfs.o linux-ptrace.o linux-waitpid.o linux-personality.o linux-namespaces.o fork-child.o fork-inferior.o linux-mips-low.o mips-linux-watch.o hostio-errno.o thread-db.o proc-service.o common/posix-strerror.o   xml-builtin.o build-gnulib-gdbserver/import/libgnu.a build-libiberty-gdbserver/libiberty.a $DL_STATIC -static
+```
+
+Now you should have a statically linked gdbserver:
+
+```
+$ file gdbserver 
+gdbserver: ELF 32-bit MSB executable, MIPS, MIPS-I version 1 (SYSV), statically linked, not stripped
+```
+
+
 ## For dummies: MUSL via [musl-cross-make](https://github.com/richfelker/musl-cross-make/): Use `source activate-musl-toolchain.env` with an installed toolchain built by musl-cross-make
 
 Using [musl-cross-make](https://github.com/richfelker/musl-cross-make/) is a great experience and kudos to [@richfelker](https://github.com/richfelker) for making it available. I recommend you try it, even just for testing a sample i486 toolchain, useful for building statically linked libraries for common desktop/server platforms. If you do try it, all you need to do is edit the musl-cross-make config.mak file to specify the architecture and any other flags as well as installation path and then use make -j and make install. That's it. You're done. The activate-musl-toolchain file provided here is for you to place in the root of the installed toolchain to use as a convenience to "activate" the toolchain in your environment for use with *weird* build systems, or for software with no build system at all. You use it by simply `source`ing it in your active shell. Sorry, there is no deactivate. Just start a new shell to restore your environment. Here's an example

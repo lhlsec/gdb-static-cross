@@ -8,7 +8,7 @@ This repository is not a toolchain or a toolchain builder
 
 ### What this repository *kind of* is
 
-A HOWTO on building a statically linked gdbserver without much hacking
+A HOWTO on building a statically linked `gdbserver` without much hacking. Note this does **NOT** get into cross compiling gdb. Personally I use qemu for running `gdb` via the gdb command `target remote host:port` over the network
 
 ### What this repository IS when fully utilized
 

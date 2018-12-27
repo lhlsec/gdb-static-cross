@@ -21,6 +21,11 @@ This repository is for when you don't want something as heavy as crosstool-ng or
 
 *Note that you can use the `--disable-build-with-cxx` option when configuring gdb-7.12/gdb/gdbserver in some cases to make your life easier*
 
+
+### GDB 8.2 is here
+
+It can be built with only some hassle, see below ...
+
 ### ATTENTION!
 
 ***If you just want to download a statically linked gdbserver for a specific MIPS(EL) or ARM platform, check the [prebuilt-static](https://github.com/mzpqnxow/gdb-static-cross/tree/master/prebuilt-static/) directory***

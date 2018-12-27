@@ -80,10 +80,11 @@ mips-sf-linux-musl-g++  -g -O2    -I. -I. -I./../common -I./../regformats -I./..
 
 Now you should have a statically linked gdbserver:
 
-```
-$ file gdbserver 
+```$ file gdbserver 
 gdbserver: ELF 32-bit MSB executable, MIPS, MIPS-I version 1 (SYSV), statically linked, not stripped
 ```
+
+I have only had time/necessity to build 8.2 for MIPS/MSB so far but I will update the repository when I find all of my toolchains (hrmmm they are on one of these disks... d'oh!)
 
 
 ## For dummies: MUSL via [musl-cross-make](https://github.com/richfelker/musl-cross-make/): Use `source activate-musl-toolchain.env` with an installed toolchain built by musl-cross-make
@@ -172,6 +173,18 @@ $ make -j gdbserver GDBSERVER_LIBS="$LIBGCC $LIBCXX"
 You should now have a statically compiled GDB 7.12 gdbserver for your native OS. Read on for the cross-compile stuff, which is a little more involved but still pretty simple.
 
 *NOTE: You really should use uClibc or musl for your libc, not glibc, because of libnss which requires dynamic library loading via libdl*
+
+## Notes on stubborn build targets
+
+When you encounter a target that still builds a dynamic executable, even using `cross_configure` alias, try the following:
+
+1. Let the build go until it produces the dynamically linked executable
+2. Delete the executable(s) using `rm` but leave the object (.o) files
+3. Run `V=1 make` (without `-j`) to cause the final linkining command(s) to print to stdout
+4. Paste the final linking command(s) into a file for easy editing
+5. Everywhere you see a -l<lib> replace with a /path/to/<lib>.a
+6. (Optional) In some cases (gdb 8.x) you will also need to replace 
+7. Paste the (now modified) link command into your shell and it should link properly
 
 ## GDB packet errors
 

@@ -17,7 +17,7 @@ This repository is for when you don't want something as heavy as crosstool-ng or
 * [activate-openwrt-toolchain.env](https://github.com/mzpqnxow/gdb-static-cross/blob/master/activate-script-helpers/activate-openwrt-toolchain.env) - place file in prebuilt OpenWRT toolchain root, source it for productivity, etc.
 * [activate-musl-toolchain.env](https://github.com/mzpqnxow/gdb-static-cross/blob/master/activate-script-helpers/activate-musl-toolchain.env) - place file in musl-cross-make toolchain root, source it for productivity, etc.
 * [gdbserver-7.12-static-build.sh](https://github.com/mzpqnxow/gdb-static-cross/blob/master/gdbserver-7.12-static-build.sh) - shell script to build a static gdb-7.12 gdbserver using a cross-compile toolchain. Should be executed from gdb-7.12-/gdb/gdbserver/ which is extracted from the [gdbserver-7.12.tar.gz](https://ftp.gnu.org/gnu/gdb/gdb-7.12.1.tar.gz) tarball from GNU distribution sites or from this repository
-* [patches](https://github.com/mzpqnxow/gdb-static-cross/blob/master/patches/) - patches for various architectures and toolchains, required to build gdb-7.12
+* [patches](https://github.com/mzpqnxow/gdb-static-cross/blob/master/patches/) - patches for various architectures and toolchains, required to build gdb-7.12. Please send me more, I only create them as I encounter problems, there are surely obscure toolchains and architectures that break without a patch!
 
 *Note that you can use the `--disable-build-with-cxx` option when configuring gdb-7.12/gdb/gdbserver in some cases to make your life easier*
 

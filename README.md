@@ -80,6 +80,8 @@ gdbserver: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically li
 
 ### Capabilities provided by the shell source scripts
 
+**WARN source these files from a bash shell only, not zsh, csh, etc..**
+
 Look at the end of each .env file. You will see some variables exported, hopefully intuitively named. Those variables can now be accessed in your shell while building software with your toolchain with no need to adjust paths or locate static libraries. Tools like gcc, ar, as, ld, g++, etc. will also now be in your path and there will be a `cross_configure` alias in the shell to simplify using software packages that utilize `./configure` build systems, just replace `./configure` with `cross_configure`. This is a very simple alias that just includes the `--host` and `--prefix` options set, it's not magic.
 
 #### Sample environment variables set after activating an OpenWrt toolchain

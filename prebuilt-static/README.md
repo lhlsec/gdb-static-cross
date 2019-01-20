@@ -51,3 +51,26 @@ gdbserver-7.12-x86_64-sysv:                                        ELF 64-bit LS
 
 These are not stripped, go ahead and strip them if you want. And once more, there are now many more than just gdbserver executables in this repository, explore the directory tree. Note the special rtl819x-lexra build. This is a build specific to rtl819x SoC with Lexra CPU. Lexra CPUs are a MIPS-I with some standard MIPS instructions not implemented, specifically unaligned/half-word loads, stores, shifts. Silly. Thanks to https://github.com/KrabbyPatty/rtl819x-toolchain for making a toolchain available to build this specific binary. I was unable to get gdb 7.7.1 to build, so it is version 6.8.
 
+## Build notes for 8.2
+
+### MIPS32 example
+
+The following is for MIPS32, as you can see via the `-mips32` flag given to CFLAGS and CXXFLAGS. For other platforms you may want to use other `CFLAGS` and `CXXFLAGS` to influence the ABI/CPU you need to be compatible with. Just make sure you leave `-fPIC` and `-static`. Just a few examples for MIPS:
+
+* `-mips32r2`
+* `-mips2`
+* `-mips3`
+* `-mips4`
+* `-mips64`
+* ...
+
+#### Step by step
+
+1. Use musl-cross-make to build your toolchain
+2. Activate the toolchain using Extract the activate script provided in this repository
+3. `tar -xvf gdb-8.2.tar.xv` && cd gdb/gdb/gdbserver
+4. `cross_configure` to configure the `gdbserver` build
+5. Use `V=1 make CXXFLAGS='-fPIC -static -mips32` CFLAGS='-fPIC -static -mips32` to perform the first build. This will produce a dynamically linked `gdbserver` because of the final link command, which uses `-Wl,--dynamic-list=./proc-service.list`
+6. Copy the command that links `gdbserver` into a note and remove the `-Wl,--dynamic-list=./proc-service.list` from it. Also, replace `-ldl` with the path to `libdl.a` in your toolchain. 
+7. Copy this new command into the terminal and it will relink `gdbserver`, statically
+8. All done, use `file gdbserver` to confirm it is statically linked and for the correct ABI/CPU and then you are all set!

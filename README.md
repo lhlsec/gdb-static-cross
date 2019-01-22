@@ -203,6 +203,8 @@ When building, you may want to use the following to reduce size (this example as
 $ V=1 make CFLAGS='-fno-rtti -fno-exceptions -fPIC -static -mips32 -Os -ffunction-sections -fdata-sections -Wl,--gc-sections' CXXFLAGS='-fno-rtti -fPIC -static -mips32 -Os -ffunction-sections -fdata-sections -Wl,--gc-sections'
 ```
 
+See [this helpful post](https://stackoverflow.com/questions/6687630/how-to-remove-unused-c-c-symbols-with-gcc-and-ld) on StackOverflow for more insight on size optimization. As of approximately `gdb-8.1` it is no longer an option to build as pure C, you must build some of `gdbserver` with C++, so you will need both `CFLAGS` and `CXXFLAGS` set. As it turns out, `gcc` doesn't get too upset if you put C++ options in the `CFLAGS`, so it may be easier to just include all the flags for C and C++ and paste into both `CFLAGS` and `CXXFLAGS` out of lazyness
+
 ### Post-build size reduction via strip
 
 After building, make sure you strip the executable. The following may work for you

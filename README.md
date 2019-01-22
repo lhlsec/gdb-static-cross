@@ -191,6 +191,28 @@ When you encounter a target that still builds a dynamic executable, even using `
 6. (Optional) In some cases (gdb 8.x) you will also need to replace 
 7. Paste the (now modified) link command into your shell and it should link properly
 
+## Size (for running on embedded devices)
+
+You will probably want to make your `gdbserver` executable as small as possible in case you are working on an embedded device with 8MB or 16MB of RAM and a RAM backed filesystem
+
+### Build-time flags for reducing size
+
+When building, you may want to use the following to reduce size (this example assumes compiling for a MIPS32 system, but these flags work on any architecture/ABI. Note that the only "safe" thing here is `-Os` as I am not intimately familiar with the other options, including the linker option. These *may* break gdbserver and have not yet been tested on all architectures/ABIs. This will get you approximately a tenfold reduction in size for a statically linked `gdbserver` executable, which is pretty phenomenal (this includes the `strip` step below as well, though)
+
+```
+$ V=1 make CFLAGS='-fno-rtti -fno-exceptions -fPIC -static -mips32 -Os -ffunction-sections -fdata-sections -Wl,--gc-sections' CXXFLAGS='-fno-rtti -fPIC -static -mips32 -Os -ffunction-sections -fdata-sections -Wl,--gc-sections'
+```
+
+### Post-build size reduction via strip
+
+After building, make sure you strip the executable. The following may work for you
+
+```
+$ strip -s -g -S -d -x gdbserver 
+```
+
+This is probably redundant, but I can't be bothered to study the effects of each individual flag :)
+
 ## GDB packet errors
 
 If you run into something like this:

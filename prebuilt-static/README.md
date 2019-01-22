@@ -1,3 +1,7 @@
+# README on prebuilt, statically linked `gdbserver` executables
+
+This is a little bit out of date, but may be helpful. Executables are now split via stripped and unstripped. Also, newer versions of `gdb` require aggressive size optimizations when building in addition to simple stripping. This will be documented in the README in the root of the repository
+
 ## Pre-built gdbserver executables for many platforms
 
 *NOTE: these were taken for my larger statically compiled executable repository @ https://github.com/mzpqnxow/embedded-toolkit which includes many more static bins (gawk, lsof, tcpdump, etc)*
